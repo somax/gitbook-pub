@@ -19,7 +19,8 @@ app.use(bodyParser.json());
 
 // home page
 app.get('/', function(req, res) {
-    res.send('Welcome to Gitbook Pub')
+    // res.send('Welcome to Gitbook Pub');
+    res.redirect('/books');
 })
 
 // 发布触发器

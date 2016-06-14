@@ -4,10 +4,13 @@
 ## deployment
 
 ```
-$ pm2 deploy production setup
-$ pm2 deploy production
+$ pm2 run deploy
 ```
 
+## run
+```
+npm run pm2
+```
 
 ## usage
 
