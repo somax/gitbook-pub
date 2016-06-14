@@ -1,0 +1,22 @@
+{
+  "name": "gitbook-pub",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "pretest": "eslint .",
+    "posttest": "nsp check"
+  },
+  "dependencies": {
+    "exec": "^0.2.1",
+    "express": "^4.13.4",
+    "serve-index": "^1.7.3"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "license": "UNLICENSED",
+  "description": "gitbook-pub"
+}
