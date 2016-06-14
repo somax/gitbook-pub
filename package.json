@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node .",
-    "install": "npm install -g gitbook-cli && mkdir -p books"
+    "install": "sudo npm install -g gitbook-cli && mkdir -p books"
   },
   "dependencies": {
     "body-parser": "^1.15.1",
