@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node .",
-    "install": "sudo npm install -g gitbook-cli && mkdir -p books"
+    "install": "gitbook -V || sudo npm install -g gitbook-cli",
+    "deploy":"pm2 deploy package.json production"
   },
   "dependencies": {
     "body-parser": "^1.15.1",
@@ -19,5 +20,27 @@
     "url": ""
   },
   "license": "UNLICENSED",
-  "description": "gitbook-pub"
+  "description": "gitbook-pub",
+  "apps" : [
+    {
+      "name"      : "gitbook-pub",
+      "script"    : "index.js",
+      "env": {
+      },
+      "env_production" : {
+        "NODE_ENV": "production",
+        "GITBOOK_PUB_PORT": 8002
+      }
+    }
+  ],
+  "deploy" : {
+    "production" : {
+      "user" : "jk",
+      "host" : "192.168.123.224",
+      "ref"  : "origin/master",
+      "repo" : "git@git.jkr3.com:somax/gitbook-pub.git",
+      "path" : "/home/jk/production",
+      "post-deploy" : "npm install && pm2 startOrRestart package.json --env production"
+    }
+  }
 }
