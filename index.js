@@ -6,7 +6,7 @@ const express = require('express'),
 
 const
     hostname = '0.0.0.0',
-    port = process.argv[2] || process.env.PORT || 3000,
+    port = process.argv[2] || process.env.GITBOOK_PUB_PORT || 3000,
     bookPath = '/books',
     execPath = '/exec',
     staticBookPath = __dirname + bookPath,
