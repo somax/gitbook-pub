@@ -1,14 +1,14 @@
 reposDir=repos
-bookRepoUrl=$1
-bookName=$2
+repoUrl=$1
+repoName=$2
 
-mkdir -p $reposDir && cd $reposDir  
+mkdir -p $reposDir && cd $reposDir
 
-if [ -d $bookName ]
+if [ -d $repoName ]
 then
-    cd $bookName && git pull
+	echo 'Update the book '$repoName
+    cd $repoName && git pull
 else
-    git clone $bookRepoUrl $bookName
+	echo 'Geting a new book from '$repoUrl
+    git clone $repoUrl $repoName
 fi
-
-

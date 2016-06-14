@@ -1,6 +1,4 @@
+repoName=$1
+bookName=$2
 
-bookName=$1
-
-gitbook build repos/$bookName books/$bookName
-
- 
+gitbook build repos/$repoName books/$bookName --log warn

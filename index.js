@@ -1,8 +1,11 @@
 const express = require('express'),
     app = express(),
-    exec = require('exec'),
+    bodyParser = require('body-parser'),
     fs = require('fs'),
-    serveIndex = require('serve-index');
+    serveIndex = require('serve-index'),
+    exec = require('child_process').execFile;
+
+
 
 const
     hostname = '0.0.0.0',
@@ -12,6 +15,7 @@ const
     staticBookPath = __dirname + bookPath,
     staticExecPath = __dirname + execPath;
 
+app.use(bodyParser.json());
 
 // home page
 app.get('/', function(req, res) {
@@ -19,24 +23,44 @@ app.get('/', function(req, res) {
 })
 
 // 发布触发器
-app.get('/webhook', function webhook(req, res) {
-    console.log(__dirname);
+app.post('/webhook', function webhook(req, res) {
+    var project = req.body.project;
 
-    repo = req.query.repo || '';
+    if(!project){
+        res.status(500).send('argument error')
+    }
 
-    var _tmp = repo.split('/');
-    var _bookname = _tmp[_tmp.length - 1].replace('.git', '');
+    var _repo = project.git_ssh_url;
+    var _repoName = project.name;
+    var _bookName = project.description || _repoName;
 
-    _cmd = 'cd "' + __dirname +'" && exec/clone.sh ' + repo + ' ' + _bookname + ' && exec/build.sh ' + _bookname;
 
-    exec(_cmd, function(err, out, code) {
-        if (err) {
-            res.status(500).send(err);
+    console.log('Publishing ' + _bookName + '...');
+
+    exec('cd', [__dirname]);
+    exec('exec/clone.sh', [_repo, _repoName], (error, stdout, stderr) => {
+        if (error) {
+            console.log('[error]\n', stdout, stderr);
+            res.status(500).send(stderr);
         } else {
-            res.status(200).send(out);
+            console.log('Success!\n', stdout, stderr);
+            // res.status(200).send(stdout + stderr);
+            var _preOut = stdout + '\n' + stderr;
+            console.log('Building book...');
+            exec('exec/build.sh', [_repoName, _bookName], (error, stdout, stderr) => {
+                if (error) {
+                    console.log('[error]\n', stdout, stderr);
+                    res.status(500).send(stderr);
+                } else {
+                    console.log('Success!\n', stdout, stderr);
+                    res.status(200).send(_preOut + stdout + stderr + 'Building book success!');
+                }
+            });
         }
     });
+
 })
+
 
 
 // 根据目录列出书籍
@@ -46,4 +70,4 @@ app.use('/books', serveIndex(staticBookPath));
 
 app.listen(port)
 
-console.log(`Gitbook Pub running at http://${hostname}:${port}/`);
+console.log(`Gitbook-Pub running at http://${hostname}:${port}/`);
