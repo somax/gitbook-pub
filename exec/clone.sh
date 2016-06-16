@@ -10,5 +10,6 @@ then
     cd "$repoName" && git pull
 else
 	echo "Geting a new book from $repoUrl"
-    git clone "$repoUrl" "$repoName"
+    # git clone "$repoUrl" "$repoName"
+    git clone "$repoUrl"
 fi
