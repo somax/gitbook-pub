@@ -23,7 +23,7 @@ app.get('/', function(req, res) {
     res.redirect('/books');
 })
 
-// 发布触发器
+// webHook
 app.post('/webhook', function webhook(req, res) {
     var project = req.body.project;
 
@@ -45,7 +45,6 @@ app.post('/webhook', function webhook(req, res) {
             res.status(500).send(stderr);
         } else {
             console.log('Success!\n', stdout, stderr);
-            // res.status(200).send(stdout + stderr);
             var _preOut = stdout + '\n' + stderr;
             console.log('Building book...');
             exec('exec/build.sh', [_repoName, _bookName], (error, stdout, stderr) => {
@@ -64,7 +63,7 @@ app.post('/webhook', function webhook(req, res) {
 
 
 
-// 根据目录列出书籍
+// list of books
 app.use('/books', express.static(staticBookPath));
 app.use('/books', serveIndex(staticBookPath));
 
