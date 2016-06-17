@@ -1,4 +1,5 @@
 repoName=$1
-bookName=$2
+bookDescription=$2
 
-gitbook build "repos/$repoName" "books/$bookName" --log warn
+gitbook build "repos/$repoName" "books/$repoName" --log warn
+echo "$bookDescription" > "books/$repoName/.description"
