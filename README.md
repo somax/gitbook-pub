@@ -11,7 +11,7 @@ or at server
 npm run pm2
 ```
 
-## usage
+## Usage
 
 ### Add webhook to gitlab
 
@@ -22,5 +22,5 @@ npm run pm2
 
 > you can press the `Test Hook` button to test it.
 
-### Readbook
-Once the new version of the push to gitlab, you can immediately see the latest version of the document in `http://book.jkr3.com/books`
+### Reading books
+Once the new version of the document push to gitlab, you will immediately see the latest version of the document in `http://book.jkr3.com/books`
