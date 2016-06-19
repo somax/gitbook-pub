@@ -11,5 +11,4 @@ then
 else
 	echo "Geting a new book from $repoUrl"
     git clone "$repoUrl" "$repoName"
-    # git clone "$repoUrl"
 fi
