@@ -1,4 +1,5 @@
 node_modules
 repos
-books
+books/*
+!books/README.md
 npm-debug.log
