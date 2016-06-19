@@ -35,8 +35,7 @@ app.post('/webhook', function webhook(req, res) {
     var _repoName = project.name;
     var _bookDescription = project.description || '';
 
-
-    console.log('Publishing ' + _bookDescription + '...');
+    console.log('Publishing ' + _repoName + '...\n', _bookDescription );
 
     exec('cd', [__dirname]);
     exec('exec/clone.sh', [_repo, _repoName], (error, stdout, stderr) => {
@@ -47,7 +46,7 @@ app.post('/webhook', function webhook(req, res) {
             console.log('Success!\n', stdout, stderr);
             var _preOut = stdout + '\n' + stderr;
             console.log('Building book...');
-            exec('exec/build.sh', [_repoName, _bookDescription], (error, stdout, stderr) => {
+            exec('exec/build.sh', [_repoName], (error, stdout, stderr) => {
                 if (error) {
                     console.log('[error]\n', stdout, stderr);
                     res.status(500).send(stderr);
