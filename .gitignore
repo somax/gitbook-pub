@@ -3,3 +3,5 @@ repos
 books/*
 !books/README.md
 npm-debug.log
+
+gitbook-plugins/node_modules

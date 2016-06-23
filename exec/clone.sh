@@ -11,4 +11,6 @@ then
 else
 	echo "Geting a new book from $repoUrl"
     git clone "$repoUrl" "$repoName"
+    cd ..
+    exec/install-plugins.sh "$repoName"
 fi

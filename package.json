@@ -4,15 +4,18 @@
   "main": "index.js",
   "scripts": {
     "start": "node .",
-    "install": "gitbook -V || sudo npm install -g gitbook-cli",
+    "install": "gitbook-plugins/install.sh",
     "deploy": "pm2 deploy package.json production",
     "pm2": "pm2 start package.json"
   },
   "dependencies": {
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
-    "serve-index": "somax/serve-index#gitbook-pub"
+    "serve-index": "somax/serve-index#gitbook-pub",
+    "gitbook-plugin-disqus": "^0.1.0",
+    "gitbook-plugin-search-jieba": "^1.0.3"
   },
+  "bundledDependencies":["body-parser","express","serve-index"],
   "devDependencies": {},
   "repository": {
     "type": "",
