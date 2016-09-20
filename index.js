@@ -6,7 +6,6 @@ const express = require('express'),
     exec = require('child_process').execFile;
 
 
-
 const
     hostname = '0.0.0.0',
     port = process.argv[2] || process.env.GITBOOK_PUB_PORT || 3000,
@@ -21,19 +20,19 @@ app.use(bodyParser.json());
 app.get('/', function(req, res) {
     // res.send('Welcome to Gitbook Pub');
     res.redirect('/books');
-})
+});
 
 // webHook
 app.post('/webhook', function webhook(req, res) {
-    var project = req.body.project;
+    let project = req.body.project;
 
     if(!project){
-        res.status(500).send('argument error')
+        res.status(500).send('argument error');
     }
 
-    var _repo = project.git_ssh_url;
-    var _repoName = project.name;
-    var _bookDescription = project.description || '';
+    let _repo = project.git_ssh_url;
+    let _repoName = project.name;
+    let _bookDescription = project.description || '';
 
     console.log('Publishing ' + _repoName + '...\n', _bookDescription );
 
@@ -44,7 +43,7 @@ app.post('/webhook', function webhook(req, res) {
             res.status(500).send(stderr);
         } else {
             console.log('Success!\n', stdout, stderr);
-            var _preOut = stdout + '\n' + stderr;
+            let _preOut = stdout + '\n' + stderr;
             console.log('Building book...');
             exec('exec/build.sh', [_repoName], (error, stdout, stderr) => {
                 if (error) {
@@ -58,7 +57,7 @@ app.post('/webhook', function webhook(req, res) {
         }
     });
 
-})
+});
 
 
 
@@ -67,6 +66,6 @@ app.use('/books', express.static(staticBookPath));
 app.use('/books', serveIndex(staticBookPath, {'icons': true,'view':'cover'}));
 
 
-app.listen(port)
+app.listen(port);
 
 console.log(`Gitbook-Pub running at http://${hostname}:${port}/`);
