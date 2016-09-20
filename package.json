@@ -4,7 +4,6 @@
   "main": "index.js",
   "scripts": {
     "start": "node .",
-    "install": "gitbook-plugins/install.sh",
     "deploy": "pm2 deploy package.json production",
     "pm2": "pm2 start package.json"
   },
