@@ -11,17 +11,16 @@
   "dependencies": {
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
-    "serve-index": "somax/serve-index#gitbook-pub",
+    "serve-index": "github:somax/serve-index#gitbook-pub",
     "gitbook-plugin-disqus": "^0.1.0",
     "gitbook-plugin-search-jieba": "^1.0.3"
   },
-  "bundledDependencies":["body-parser","express","serve-index"],
   "devDependencies": {},
   "repository": {
-    "type": "",
-    "url": ""
+    "type": "git",
+    "url": "https://github.com/somax/gitbook-pub.git"
   },
-  "license": "UNLICENSED",
+  "license": "MIT",
   "description": "gitbook-pub",
   "apps": [
     {
@@ -43,5 +42,16 @@
       "path": "/home/jk/gitbook-pub/production",
       "post-deploy": "npm install && pm2 startOrRestart package.json --env production"
     }
-  }
+  },
+  "bundleDependencies": [
+    "body-parser",
+    "express",
+    "serve-index"
+  ],
+  "keywords": [
+    "gitbook",
+    "publish",
+    "ebook"
+  ],
+  "author": "MaXiaojun <somaxj@163.com>"
 }

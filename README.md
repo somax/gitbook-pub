@@ -13,6 +13,12 @@ npm run pm2
 
 ## Usage
 
+### build book manually
+
+```
+exec/build.sh <bookRepoName>
+```
+
 ### Add webhook to gitlab
 
 1. create new book repos and push it to gitlab.
