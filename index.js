@@ -64,7 +64,7 @@ app.post('/webhook', function webhook(req, res) {
 
 // list of books
 app.use('/books', express.static(staticBookPath));
-app.use('/books', serveIndex(staticBookPath, {'icons': true,'view':'details'}));
+app.use('/books', serveIndex(staticBookPath, {'icons': true,'view':'cover'}));
 
 
 app.listen(port)
