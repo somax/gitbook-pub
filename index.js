@@ -1,6 +1,7 @@
 const express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
+    url = require('url'),
     fs = require('fs'),
     serveIndex = require('serve-index'),
     exec = require('child_process').execFile;
@@ -63,7 +64,21 @@ app.post('/webhook', function webhook(req, res) {
 
 // list of books
 app.use('/books', express.static(staticBookPath));
-app.use('/books', serveIndex(staticBookPath, {'icons': true,'view':'cover'}));
+let serveIndexOption = {'icons': true,'view':'cover'};
+const serveIndexHandler = serveIndex(staticBookPath, serveIndexOption);
+
+// http://.../books/?view=details
+app.use('/books',function (req, res, next) {
+    const _url = url.parse(req.url, true);
+    if(_url.query.view){
+        console.log(_url.query.view);
+        serveIndexHandler.setView(_url.query.view);
+    };
+    next();
+})
+
+app.use('/books', serveIndexHandler);
+
 
 
 app.listen(port);
