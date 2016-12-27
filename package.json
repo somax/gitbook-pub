@@ -10,10 +10,9 @@
   "dependencies": {
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
-    "serve-index": "github:somax/serve-index#gitbook-pub",
     "ez-config-loader": "^0.1.2",
-    "gitbook-plugin-disqus": "^0.1.0",
-    "gitbook-plugin-search-jieba": "^1.0.3"
+    "gitbook-pub-index": "^1.9.5",
+    "oauth-gitlab": "^0.1.0"
   },
   "devDependencies": {},
   "repository": {
@@ -36,7 +35,7 @@
   "deploy": {
     "production": {
       "user": "jk",
-      "host": "192.168.123.224",
+      "host": "192.168.126.213",
       "ref": "origin/master",
       "repo": "git@git.jkr3.com:somax/gitbook-pub.git",
       "path": "/home/jk/gitbook-pub/production",

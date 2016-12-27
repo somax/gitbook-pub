@@ -4,7 +4,7 @@ const
     bodyParser = require('body-parser'),
     url = require('url'),
     fs = require('fs'),
-    serveIndex = require('serve-index'),
+    serveIndex = require('gitbook-pub-index'),
     exec = require('child_process').execFile;
 
 const
