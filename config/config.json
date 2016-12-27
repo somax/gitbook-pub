@@ -1,0 +1,9 @@
+{
+    "authGitlab": {
+        "clientID": "GITLAB_CLIENT_ID",
+        "clientSecret": "GITLAB_CLIENT_SECRET",
+        "callbackBaseURL": "http://your-app.com/",
+        "baseURL": "https://gitlab.your-company.com/", 
+        "rejectUnauthorized":true
+    }
+}

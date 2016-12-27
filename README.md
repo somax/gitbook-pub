@@ -34,3 +34,40 @@ exec/build.sh <bookRepoName>
 
 ### Reading books
 Once the new version of the document push to gitlab, you will immediately see the latest version of the document in `http://book.jkr3.com/books`
+
+## Auth with GitLab
+
+Setup auth config:
+
+Edit or create config file `config/config[.NODE_ENV].json`
+
+```
+{
+    "authGitlab": {
+        "clientID": "GITLAB_CLIENT_ID",
+        "clientSecret": "GITLAB_CLIENT_SECRET",
+        "callbackBaseURL": "http://your-app.com/",
+        "baseURL": "https://gitlab.your-company.com/", 
+        "rejectUnauthorized":true
+    }
+}
+
+```
+
+If your GitLab site use self-signed certificate, you may got `InternalOAuthError: Failed to obtain access token` error, just set `rejectUnauthorized` to `false`.
+
+## SSL
+
+Create self-signed certificate:
+
+```
+
+# Create a 2048 bit private key
+sudo openssl genrsa -out "./ssl/gitbook-pub.key" 2048
+
+# This command generates the certificate signing request
+sudo openssl req -new -key "./ssl/gitbook-pub.key" -out "./ssl/gitbook-pub.csr"
+
+# Create the signed certificate:
+sudo openssl x509 -req -days 365 -in "./ssl/gitbook-pub.csr" -signkey "./ssl/gitbook-pub.key"  -out "./ssl/gitbook-pub.crt"
+```

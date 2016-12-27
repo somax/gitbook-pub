@@ -1,11 +1,11 @@
-const express = require('express'),
+const
+    express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
     url = require('url'),
     fs = require('fs'),
     serveIndex = require('serve-index'),
     exec = require('child_process').execFile;
-
 
 const
     hostname = '0.0.0.0',
@@ -15,6 +15,13 @@ const
     staticBookPath = __dirname + bookPath,
     staticExecPath = __dirname + execPath;
 
+
+
+
+require('./lib/auth')(app);
+
+
+
 app.use(bodyParser.json());
 
 // home page
@@ -23,11 +30,23 @@ app.get('/', function(req, res) {
     res.redirect('/books');
 });
 
+
+// app.get('/', (req, res) => {
+//     let isLogin = req.hasOwnProperty('user');
+//     // let username = isLogin ? req.user.displayName : 'guset';
+//     // res.send(`Hello ${username}! <br><a href="/login">login</a> <a href="/logout">logout</a> <br><a href="/profile">profile</a> <a href="/books">books</a> `);
+//     if(isLogin){
+//         res.redirect('/books');
+//     }else{
+//         res.redirect('/login');
+//     }
+// });
+
 // webHook
 app.post('/webhook', function webhook(req, res) {
     let project = req.body.project;
 
-    if(!project){
+    if (!project) {
         res.status(500).send('argument error');
     }
 
@@ -35,7 +54,7 @@ app.post('/webhook', function webhook(req, res) {
     let _repoName = project.name;
     let _bookDescription = project.description || '';
 
-    console.log('Publishing ' + _repoName + '...\n', _bookDescription );
+    console.log('Publishing ' + _repoName + '...\n', _bookDescription);
 
     exec('cd', [__dirname]);
     exec('exec/clone.sh', [_repo, _repoName], (error, stdout, stderr) => {
@@ -63,24 +82,45 @@ app.post('/webhook', function webhook(req, res) {
 
 
 // list of books
-app.use('/books', express.static(staticBookPath));
-let serveIndexOption = {'icons': true,'view':'cover'};
-const serveIndexHandler = serveIndex(staticBookPath, serveIndexOption);
+app.use('/books',
+    require('connect-ensure-login').ensureLoggedIn(),
+    express.static(staticBookPath));
+let serveIndexOption = { 'icons': true, 'view': 'cover' };
+const ServeIndexHandler = serveIndex(staticBookPath, serveIndexOption);
 
 // http://.../books/?view=details
-app.use('/books',function (req, res, next) {
+app.use('/books', function(req, res, next) {
     const _url = url.parse(req.url, true);
-    if(_url.query.view){
+    if (_url.query.view) {
         console.log(_url.query.view);
-        serveIndexHandler.setView(_url.query.view);
-    };
+        ServeIndexHandler.setView(_url.query.view);
+    }
     next();
-})
+});
 
-app.use('/books', serveIndexHandler);
+app.use('/books', ServeIndexHandler);
 
 
 
-app.listen(port);
+// app.listen(port);
 
-console.log(`Gitbook-Pub running at http://${hostname}:${port}/`);
+
+// ------------- ssl 
+// 
+let https = require('https');
+
+let keyPath = 'ssl/gitbook-pub.key';
+let certPath = 'ssl/gitbook-pub.crt';
+
+let hskey = fs.readFileSync(keyPath);
+let hscert = fs.readFileSync(certPath);
+
+let options = {
+    key: hskey,
+    cert: hscert
+};
+
+
+https.createServer(options, app).listen(port);
+
+console.log(`Gitbook-Pub running at https://${hostname}:${port}/`);
